@@ -1,0 +1,354 @@
+<!-- Code from d3-graph-gallery.com -->
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<style>
+  #my_dataviz{
+    /*background-color: black;*/
+  }
+</style>
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+
+<!-- Load color palette -->
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+
+<!-- Create a div where the graph will take place -->
+<div id="my_dataviz"></div>
+
+
+<script>
+// set the dimensions and margins of the graph
+var margin = {top: 10, right: 500, bottom: 500, left: 50},
+  width = 1300 - margin.left - margin.right,
+  height = 1100 - margin.top - margin.bottom;
+
+const normalFont = 16, highlightFont = 20
+
+let annotation
+
+// append the svg object to the body of the page
+var svg = d3.select("#my_dataviz")
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+
+let arc_g = svg.append("g")
+              .attr("transform",
+              "translate(" + margin.left + "," + margin.top + ")");
+
+arc_g.append('defs').append('marker')
+    .attr("id",'arrowhead')
+    .attr('viewBox','-0 -5 10 10') //the bound of the SVG viewport for the current SVG fragment. defines a coordinate system 10 wide and 10 high starting on (0,-5)
+     .attr('refX',24) // x coordinate for the reference point of the marker. If circle is bigger, this need to be bigger.
+     .attr('refY',0)
+     .attr('orient','auto')
+        .attr('markerWidth',6)
+        .attr('markerHeight',6)
+        .attr('xoverflow','visible')
+    .append('svg:path')
+    .attr('d', 'M 0,-5 L 10 ,0 L 0,5')
+    .attr('fill', '#999')
+    .style('stroke','none');
+
+// Read dummy data
+d3.json("data/out.json", function( data) {
+  
+  let sortedNodes = data.nodes.sort(function(a,b) { return a.index - b.index })
+  var allNodes = sortedNodes.map(function(d){return d.id})
+
+  sortedNodes = sortedNodes.map(d=>{
+    d.frequency = 0
+    return d
+  })
+
+  data.links.forEach(link_d => {
+    node = sortedNodes.find(d => link_d.target === d.id )
+    if( node ){
+        node.frequency += +link_d.label.replace(',', '')
+    }
+  })
+
+  // A linear scale for node size
+  var size = d3.scaleLinear()
+    .domain(d3.extent(sortedNodes, d=>d.frequency))
+    .range([8,28]);
+
+  var color = d3.scaleSequential(d3.interpolatePuBu)
+    .domain(d3.extent(sortedNodes, d=>d.frequency))
+
+  // A linear scale to position the nodes on the X axis
+  var x = d3.scalePoint()
+    .range([0, width])
+    .domain(allNodes)
+
+  var idToNode = {};
+  sortedNodes.forEach(function (n) {
+    idToNode[n.id] = n;
+  });
+
+  const extLink = d3.extent(data.links, d=> {
+      let res = d.label.replace(',', '')
+      return +res
+  })
+
+  const scaleWidth = d3.scaleLinear()
+      .domain(extLink)
+      .range([1, 22]);
+
+  const scaleOpacity = d3.scaleLinear()
+      .domain(extLink)
+      .range([.5, 1]);      
+
+  // Add the links
+  var links = arc_g
+    .selectAll('mylinks')
+    .data(data.links)
+    .enter()
+    .append('path')    
+    .attr('d', function (d) {
+      start = x(idToNode[d.source].id)
+      end = x(idToNode[d.target].id)
+      return ['M', start, height/2,
+        'A',                       
+        (start - end)/2, ',',    
+        (start - end)/2, 0, 0, ',',
+        1,         
+        end, ',', height/2] 
+        .join(' ');
+    })
+    .style('stroke-opacity', function (d) {
+      return scaleOpacity(d.label.replace(',', ''))
+    })
+    .style("fill", "none")
+    .attr("stroke", function(d) {
+        start = x(idToNode[d.source].id)
+        end = x(idToNode[d.target].id)
+        return start < end ? "green" : "blue"
+    })
+    .style("stroke-width", function (d) {
+      return scaleWidth(d.label.replace(',', ''))
+    })
+    // .attr('marker-end','url(#arrowhead)');
+
+    const edgepaths = arc_g.selectAll(".edgepath")
+        .data(data.links)
+        .enter()
+        .append('path')
+        .attr('class', 'edgepath')
+        .attr('fill-opacity', 0)
+        .attr('stroke-opacity', 0)
+        .attr('id', function (d, i) {return 'edgepath' + i})
+        .attr('d', function (d) {
+          start = x(idToNode[d.source].id)
+          end = x(idToNode[d.target].id)
+          return ['M', start, height/2,
+            'A',                       
+            (start - end)/2, ',',    
+            (start - end)/2, 0, 0, ',',
+            1,         
+            end, ',', height/2] 
+            .join(' ');
+        })        
+        .style("pointer-events", "none");
+
+    const edgelabels = arc_g.selectAll(".edgelabel")
+        .data(data.links)
+        .enter()
+        .append('text')
+        .style("pointer-events", "none")
+        .attr('class', 'edgelabel')
+        .attr('id', function (d, i) {return 'edgelabel' + i})
+        .attr('font-size', 12)
+        .attr('fill', '#777')
+        .attr('rotate', function (d) {
+          start = x(idToNode[d.source].id)
+          end = x(idToNode[d.target].id)
+          return start < end ? "" : "180"
+        })
+
+    edgelabels.append('textPath')
+        .attr('xlink:href', function (d, i) {return '#edgepath' + i})
+        .style("text-anchor", "middle")
+        .style("pointer-events", "none")
+        .attr("startOffset", "50%")
+        .text(d => d.label);
+
+  // Add the circle for the nodes
+  var nodes = arc_g
+    .selectAll("mynodes")
+    .data(sortedNodes)
+    .enter()
+    .append("circle")
+      .attr("cx", function(d){ return(x(d.id))})
+      .attr("cy", height/2)
+      // .attr("r", 10)
+      .attr("r", function(d){ return(size(d.frequency))})
+      .style("fill", function(d){ return(color(d.frequency))})
+      .style("fill", 'gray')
+      .attr("stroke", "white")
+
+  // And give them a label
+  var labels = arc_g
+    .selectAll("mylabels")
+    .data(sortedNodes)
+    .enter()
+    .append("text")
+      .attr("x", 0)
+      .attr("y", 0)
+      .text(function(d){ return(d.label)} )
+      .style("text-anchor", "end")
+      .attr("transform", function(d){ return( "translate(" + (x(d.id)) + "," + (height/2+30) + ")rotate(-45)")})
+      .style("font-size", normalFont)
+
+  // Add the highlighting functionality
+  nodes
+    .on('mouseover', function (d) {
+      // Highlight the nodes: every node is green except of him
+      nodes
+        .style('opacity', .2)
+      
+      d3.select(this).style('opacity', 1)
+
+      // Highlight the connections
+      links
+        // .style('stroke', function (link_d) { return link_d.source === d.id || link_d.target === d.id ? "red" : '#b8b8b8';})
+        .style('stroke-opacity', function (link_d) { return link_d.source === d.id || link_d.target === d.id ? 1 : .2;})
+        // .style('stroke-width', function (link_d) { return link_d.source === d.id || link_d.target === d.id ? 4 : 1;})
+      edgelabels.attr('fill', function (link_d) { return link_d.source === d.id || link_d.target === d.id ? "#000" : "#777";})
+                .attr('font-size', function (link_d) { return link_d.source === d.id || link_d.target === d.id ? 16 : 12;})
+
+      labels
+        .style("font-size", function(label_d){ return label_d.label === d.label ? highlightFont : normalFont } )
+        .attr("y", function(label_d){ return label_d.label === d.label ? 10 : 0 } )
+
+    })
+    .on('mouseout', function (d) {
+      nodes.style('opacity', 1)
+      links
+        .style('stroke', d=>{
+          start = x(idToNode[d.source].id)    // X position of start node on the X axis
+          end = x(idToNode[d.target].id)      // X position of end node
+          return start < end ? "green" : "blue"          
+        })
+        .style('stroke-opacity', .5)
+        .style("stroke-width", function (d) {
+          return scaleWidth(d.label.replace(',', ''))
+        })
+      labels
+        .style("font-size", normalFont )
+      edgelabels.attr('fill', "#777").attr('font-size', 12)
+    })
+    .on('click', function(d){
+      showAnnotation(d.label)
+    })
+})
+
+function showAnnotation(label) {
+  // [0.0,1.0,5.0]
+  let res = label.replace("[","").replace("]","")
+  let labels = res.split(",")
+  let topic_rect_left = 0,
+      topic_rect_top = 8,
+      topic_rect_width = 800,
+      topic_rect_height = 20
+
+  let groups = ['medication', 'lab', 'radiology']
+  var colorScale = d3.scaleOrdinal(d3.schemeCategory10);
+
+  d3.selectAll(".annotation-g").remove();
+
+  if( labels.length < 3 )
+      return
+
+  let count = 0,
+      gap = 130
+  labels.forEach( (c,k)=> {
+    if(+c != -1){
+      
+      let g = svg.append("g")
+              .attr('id', 'annotation-g-'+k)
+              .attr('class', 'annotation-g')
+              .attr("transform", "translate(" + margin.left + "," + (height-50 + (count * gap)) + ")");
+
+      g.append('text')
+      .attr('x', topic_rect_left)
+      .attr('y', topic_rect_top - 5)
+      .style("font-size", normalFont)
+      .style('font-weight', 'bold')
+      .text( groups[k] + " (cluster " + Math.floor(+c) + ")" )
+
+      let cluster = annotation[groups[k]].clusters.filter( d=>{ return +d.id === +c})
+      let topics = cluster[0].topics.filter( d=>{ return +d.dist > 10 })
+
+      let x_start = topic_rect_left
+      let x = topics.map( d => {
+        let s = x_start
+        x_start += (+d.dist/100) * topic_rect_width
+        return {sp: s, width: (+d.dist/100) * topic_rect_width}
+      })
+      
+      g.selectAll('.topics')
+        .data(topics)
+        .enter()
+        .append('rect')
+        .attr('x', (d,i) => {return x[i].sp})
+        .attr('y', topic_rect_top)
+        .attr('width', d => (+d.dist/100) * topic_rect_width)
+        .attr('height', topic_rect_height)
+        .style('fill', (d,i)=> colorScale(i))
+        .style('opacity', .8)
+
+      xStart = topic_rect_left
+      g.selectAll('.topics-label')
+        .data(topics)
+        .enter()
+        .append('text')
+        .attr('class', 'topics-label')
+        .style("font-size", 14)
+        .attr('x', (d,i) => {return x[i].sp})
+        .attr('y', topic_rect_top)
+        .attr('dx', 2)
+        .attr('dy', 15)
+        .text((d,i) => "topic " + i + " (" + Math.floor(+d.dist) + "%)")
+
+      let v_gap = 17
+      topics.forEach((t,i)=>{
+        let topic = annotation[groups[k]].topics.filter( d=>{ return d.id === t.id})
+        g.selectAll('.term_rect'+i)
+          .data(topic[0].terms)
+          .enter()
+          .append('rect')
+          .attr('class', 'term_rect'+i)
+          .attr('x', x[i].sp)
+          .attr('y', (d, j)=>{return topic_rect_top + 22 + (j*v_gap)})
+          .attr('width', d => x[i].width * (+d.dist/100))
+          .attr('height', 14)
+          .attr('fill', colorScale(i))
+          .style('opacity', .8)
+
+        g.selectAll('.terms'+i)
+          .data(topic[0].terms)
+          .enter()
+          .append('text')
+          .attr('class', 'terms'+i)
+          .style('font-size', 14)
+          .attr('x', x[i].sp)
+          .attr('y', (d, j)=>{return topic_rect_top + 32 + (j*v_gap)})
+          .attr('dx', 2)
+          .text(d=>d.term + " (" + d.dist + "%)")
+      })
+
+      count++
+    }
+  })
+
+
+}
+
+d3.json("data/annotation.json", function( data) {
+  annotation = data
+})
+
+</script>

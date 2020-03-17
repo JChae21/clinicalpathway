@@ -1,0 +1,120 @@
+0
+Cluster #0
+Topic #4:>>>58.71
+Topic #5:>>>27.92
+Topic #9:>>>7.67
+Topic #2:>>>2.96
+1
+Cluster #1
+Topic #3:>>>98.14
+Topic #4:>>>1.68
+Topic #5:>>>0.09
+Topic #9:>>>0.09
+2
+Cluster #2
+Topic #0:>>>99.89
+Topic #3:>>>0.1
+Topic #5:>>>0.0
+Topic #8:>>>0.0
+3
+Cluster #3
+Topic #9:>>>86.86
+Topic #0:>>>11.74
+Topic #2:>>>1.14
+Topic #8:>>>0.26
+4
+Cluster #4
+Topic #2:>>>99.99
+Topic #3:>>>0.0
+Topic #9:>>>0.0
+Topic #8:>>>0.0
+5
+Cluster #5
+Topic #8:>>>97.46
+Topic #3:>>>1.07
+Topic #9:>>>0.94
+Topic #5:>>>0.43
+6
+Cluster #6
+Topic #9:>>>99.98
+Topic #0:>>>0.0
+Topic #3:>>>0.0
+Topic #2:>>>0.0
+7
+Cluster #7
+Topic #5:>>>94.69
+Topic #3:>>>2.72
+Topic #8:>>>2.37
+Topic #2:>>>0.21
+
+0
+Topic #0:
+service comment>>>4.6
+hematocrit>>>4.6
+specimen source>>>4.58
+deoxyhemoglobin>>>4.58
+class>>>4.58
+1
+Topic #1:
+creatine kinase>>>0.31
+troponin i>>>0.31
+cholesterol.in ldl>>>0.31
+corticotropin>>>0.31
+testosterone>>>0.31
+2
+Topic #2:
+activated clotting time>>>71.29
+coagulation surface induced>>>10.92
+troponin i.cardiac>>>2.84
+platelets>>>2.8
+fibrinogen>>>2.73
+3
+Topic #3:
+cholesterol>>>27.08
+triglyceride>>>25.31
+hemoglobin a1c/hemoglobin.total>>>10.76
+thyrotropin>>>10.4
+hemoglobin a1c>>>3.48
+4
+Topic #4:
+thyrotropin>>>14.88
+hemoglobin a1c/hemoglobin.total>>>13.6
+ferritin>>>7.62
+natriuretic peptide.b>>>6.22
+hemoglobin a1c>>>5.79
+5
+Topic #5:
+coagulation surface induced>>>42.34
+troponin i.cardiac>>>7.29
+natriuretic peptide.b>>>3.05
+troponin i>>>2.79
+hemoglobin a1c/hemoglobin.total>>>2.78
+6
+Topic #6:
+creatine kinase>>>0.31
+troponin i>>>0.31
+cholesterol.in ldl>>>0.31
+corticotropin>>>0.31
+testosterone>>>0.31
+7
+Topic #7:
+creatine kinase>>>0.31
+troponin i>>>0.31
+cholesterol.in ldl>>>0.31
+corticotropin>>>0.31
+testosterone>>>0.31
+8
+Topic #8:
+troponin i.cardiac>>>53.41
+coagulation surface induced>>>7.97
+natriuretic peptide.b>>>6.47
+cholesterol>>>3.04
+triglyceride>>>2.9
+9
+Topic #9:
+ph>>>5.04
+bicarbonate>>>4.99
+carbon dioxide>>>4.98
+arterial patency>>>4.98
+base excess>>>4.96
+ 

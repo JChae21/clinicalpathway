@@ -1,0 +1,119 @@
+0
+Cluster #0
+Topic #8:>>>55.89
+Topic #6:>>>16.64
+Topic #1:>>>14.86
+Topic #4:>>>8.07
+1
+Cluster #1
+Topic #9:>>>99.22
+Topic #4:>>>0.09
+Topic #1:>>>0.09
+Topic #8:>>>0.09
+2
+Cluster #2
+Topic #9:>>>99.8
+Topic #4:>>>0.02
+Topic #8:>>>0.02
+Topic #1:>>>0.02
+3
+Cluster #3
+Topic #9:>>>99.87
+Topic #4:>>>0.1
+Topic #1:>>>0.0
+Topic #8:>>>0.0
+4
+Cluster #4
+Topic #9:>>>99.26
+Topic #4:>>>0.08
+Topic #1:>>>0.08
+Topic #6:>>>0.08
+5
+Cluster #5
+Topic #9:>>>99.54
+Topic #4:>>>0.05
+Topic #1:>>>0.05
+Topic #8:>>>0.05
+6
+Cluster #6
+Topic #9:>>>99.97
+Topic #4:>>>0.0
+Topic #1:>>>0.0
+Topic #8:>>>0.0
+7
+Cluster #7
+Topic #9:>>>55.35
+Topic #6:>>>43.07
+Topic #4:>>>1.57
+Topic #1:>>>0.0
+
+0
+Topic #0:
+fenofibrate>>>0.49
+nimodipine>>>0.49
+chlorothiazide>>>0.49
+other>>>0.49
+blood products>>>0.49
+1
+Topic #1:
+furosemide>>>14.58
+aspirin>>>11.49
+metoprolol>>>10.27
+atorvastatin>>>6.26
+lisinopril>>>5.22
+2
+Topic #2:
+fenofibrate>>>0.49
+nimodipine>>>0.49
+chlorothiazide>>>0.49
+other>>>0.49
+blood products>>>0.49
+3
+Topic #3:
+fenofibrate>>>0.49
+nimodipine>>>0.49
+chlorothiazide>>>0.49
+other>>>0.49
+blood products>>>0.49
+4
+Topic #4:
+furosemide>>>15.28
+metoprolol>>>14.54
+aspirin>>>10.69
+lisinopril>>>4.96
+atorvastatin>>>4.79
+5
+Topic #5:
+fenofibrate>>>0.49
+nimodipine>>>0.49
+chlorothiazide>>>0.49
+other>>>0.49
+blood products>>>0.49
+6
+Topic #6:
+furosemide>>>12.41
+aspirin>>>12.37
+metoprolol>>>10.83
+atorvastatin>>>5.82
+lisinopril>>>5.81
+7
+Topic #7:
+fenofibrate>>>0.49
+nimodipine>>>0.49
+chlorothiazide>>>0.49
+other>>>0.49
+blood products>>>0.49
+8
+Topic #8:
+furosemide>>>13.39
+aspirin>>>9.92
+metoprolol>>>9.65
+atorvastatin>>>6.86
+lisinopril>>>5.42
+9
+Topic #9:
+furosemide>>>20.09
+metoprolol>>>12.53
+aspirin>>>11.96
+heparin>>>9.34
+amiodarone hydrochloride>>>5.82

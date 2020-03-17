@@ -1,0 +1,76 @@
+
+{
+	"groups" : 
+	[{
+		"name": "medication",
+		"clusters": 
+		[	{
+				"id": 0,
+				"topics":
+				[{
+					"id": 8,
+					"dist": 55.89
+				},
+				{
+					"id": 6,
+					"dist": 16.64
+				},
+				{
+					"id": 1,
+					"dist": 14.86
+				},
+				{
+					"id": 4,
+					"dist": 8.07
+				}]
+			},
+			{
+				"id": 1,
+				"topics":
+				[{
+					"id": 9,
+					"dist": 99.22
+				},
+				{
+					"id": 4,
+					"dist": 0.09
+				},
+				{
+					"id": 1,
+					"dist": 0.09
+				},
+				{
+					"id": 8,
+					"dist": 0.09
+				}]	
+			}		
+		],
+		"topics": 
+		[	{
+				"id": 0,
+				"terms":
+				[	{
+						"term": "fenofibrate",
+						"dist": 0.49
+					},
+					{
+						"term": "nimodipine",
+						"dist": 0.49
+					},
+					{
+						"term": "chlorothiazide",
+						"dist": 0.49
+					},
+					{
+						"term": "other",
+						"dist": 0.49
+					},
+					{
+						"term": "blood products",
+						"dist": 0.49
+					}
+				]
+			}
+		]
+	}]
+}
